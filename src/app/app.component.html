@@ -1,40 +1,44 @@
-<style>
-  :host {
-    font-family: Roboto;
-    font-size: 14px;
-    color: #333;
-    box-sizing: border-box;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
+<mat-toolbar color="primary" class="toolbar">
+  <button mat-icon-button (click)="openGithub()" aria-label="Github button">
+    <i class="fab fa-github"></i>
+  </button>
+  <div class="title-container">
+    <h2>Changelog Generator</h2>
+  </div>
+  <button mat-icon-button toggle class="theme" (click)="toggleTheme()" aria-label="Theme toggle button">
+    <mat-icon *ngIf="!checked">brightness_5</mat-icon>
+    <mat-icon *ngIf="checked">bedtime</mat-icon>
+  </button>
+</mat-toolbar>
+<div class="mat-app-background">
+  <div class="content" role="main">
+    <div class="center">
+      <mat-form-field class="changelog" appearance="fill">
+        <mat-label>Что нового?</mat-label>
+        <textarea matInput #ru_changelog [maxLength]="2000" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="20" cdkAutosizeMaxRows="20"></textarea>
+        <mat-hint align="end">{{ru_changelog.value.length}}/2000</mat-hint>
+      </mat-form-field>
 
-  .toolbar {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    background-color: #1976d2;
-    color: white;
-    font-weight: 600;
-  }
-
-  .content {
-    display: flex;
-    margin: 82px auto 32px;
-    padding: 0 16px;
-    max-width: 960px;
-    flex-direction: column;
-    align-items: center;
-  }
-</style>
-
-<div class="toolbar" role="banner">
-
-</div>
-
-<div class="content" role="main">
-
+      <mat-form-field class="changelog" appearance="fill">
+        <mat-label>What's new?</mat-label>
+        <textarea matInput #en_changelog [maxLength]="2000" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="20" cdkAutosizeMaxRows="20"></textarea>
+        <mat-hint align="end">{{en_changelog.value.length}}/2000</mat-hint>
+      </mat-form-field>
+    </div>
+    <div class="center">
+      <mat-form-field class="sticker_pack" appearance="fill">
+        <mat-label>Ссылка на стикерпак</mat-label>
+        <input matInput #sticker_pack type="url">
+      </mat-form-field>
+      <mat-form-field class="sticker_number" appearance="fill">
+        <mat-label>Номер стикера</mat-label>
+        <input matInput #sticker_number type="number" min="0" max="50">
+      </mat-form-field>
+    </div>
+    <div class="center">
+      <button (click)="copyToClipboard()" mat-stroked-button class="create_button" color="primary">Создать JSON</button>
+    </div>
+  </div>
 </div>
