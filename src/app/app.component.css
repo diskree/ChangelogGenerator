@@ -36,7 +36,8 @@ input::-webkit-inner-spin-button {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: calc(100% - 90px);
+    min-height: calc(100% - 90px);
+    box-sizing: border-box;
 }
 
 .toolbar {

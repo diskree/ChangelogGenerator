@@ -66,10 +66,10 @@ export class AppComponent {
     this.currentTheme = this.checked ? 'dayMode' : '';
     if (this.checked) {
       this.overlay.getContainerElement().classList.add('dayMode');
-      this.updateThemeColor('#1e88e5');
+      this.updateThemeColor('#f8bbd0');
     } else {
       this.overlay.getContainerElement().classList.remove('dayMode');
-      this.updateThemeColor('#f8bbd0');
+      this.updateThemeColor('#fff59d');
     }
   }
 
