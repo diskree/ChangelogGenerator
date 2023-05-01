@@ -1,8 +1,11 @@
-html, body, .mat-app-background {
-    min-height: 100vh;
-    width: 100%;
+::ng-deep .mat-ripple-element {
+    background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
     margin: 0;
-    padding: 0;
 }
 
 .changelog textarea {
@@ -26,11 +29,21 @@ html, body, .mat-app-background {
     flex-direction: row;
 }
 
+.mat-app-background {
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100% - 90px);
+}
+
 .toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px;
+    height: 90px;
     padding: 0 15px;
     color: white;
 }
@@ -41,17 +54,14 @@ html, body, .mat-app-background {
     justify-content: center;
 }
 
-.toolbar h2 {
+.toolbar-item {
     margin: 0;
-}
-
-.theme {
-    background-color: transparent;
+    color: black;
 }
 
 .content {
-    margin: 0;
     padding: 16px;
+    width: 100%;
 }
 
 .changelogs_container {
@@ -61,7 +71,6 @@ html, body, .mat-app-background {
 }
 
 .changelog {
-    font-size: 16px;
     width: 30%;
     margin-left: 10px;
     margin-right: 10px;
@@ -79,9 +88,9 @@ html, body, .mat-app-background {
 }
 
 .create_button {
+    font-size: 20px;
     width: 30%;
-    
-    height: 80px;
+    height: 120px;
     margin-bottom: 20px;
 }
 
@@ -90,15 +99,18 @@ html, body, .mat-app-background {
         flex-direction: column;
     }
 
+    .changelogs_container,
     .changelog,
     .sticker_pack,
     .sticker_number,
     .create_button {
-        margin: 0;
-        width: 100%;
+        margin-left: 5%;
+        width: 90%;
     }
 
     .changelog {
         margin-bottom: 10px;
     }
+
+
 }

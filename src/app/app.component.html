@@ -1,12 +1,15 @@
+<head>
+  <meta name="theme-color" id="theme-color-tag" content="#fff59d">
+</head>
 <mat-toolbar color="primary" class="toolbar">
-  <button mat-icon-button (click)="openGithub()" aria-label="Github button">
+  <button mat-icon-button class="toolbar-item" (click)="openGithub()" aria-label="Github button">
     <i class="fab fa-github"></i>
   </button>
   <div class="title-container">
-    <h2>Changelog Generator</h2>
+    <h2 class="toolbar-item">Changelog Generator</h2>
   </div>
-  <button mat-icon-button toggle class="theme" (click)="toggleTheme()" aria-label="Theme toggle button">
-    <mat-icon *ngIf="!checked">brightness_5</mat-icon>
+  <button mat-icon-button toggle class="toolbar-item" (click)="toggleTheme()" aria-label="Theme toggle button">
+    <mat-icon *ngIf="!checked">sunny</mat-icon>
     <mat-icon *ngIf="checked">bedtime</mat-icon>
   </button>
 </mat-toolbar>
@@ -19,7 +22,6 @@
           cdkAutosizeMinRows="20" cdkAutosizeMaxRows="20"></textarea>
         <mat-hint align="end">{{ru_changelog.value.length}}/2000</mat-hint>
       </mat-form-field>
-
       <mat-form-field class="changelog" appearance="fill">
         <mat-label>What's new?</mat-label>
         <textarea matInput #en_changelog [maxLength]="2000" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
@@ -38,7 +40,7 @@
       </mat-form-field>
     </div>
     <div class="center">
-      <button (click)="copyToClipboard()" mat-stroked-button class="create_button" color="primary">Создать JSON</button>
+      <button (click)="copyToClipboard()" mat-raised-button class="create_button" color="primary">Создать JSON</button>
     </div>
   </div>
 </div>

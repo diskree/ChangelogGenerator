@@ -1,10 +1,11 @@
-import { Component, ElementRef, HostBinding, NgZone, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostBinding, NgZone, ViewChild, Renderer2, Inject } from '@angular/core';
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClipboardService } from 'ngx-clipboard';
 import { take } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { OverlayContainer } from '@angular/cdk/overlay';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,9 @@ export class AppComponent {
     private _ngZone: NgZone,
     private clipboardService: ClipboardService,
     private snackBar: MatSnackBar,
-    private overlay: OverlayContainer
+    private overlay: OverlayContainer,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) { }
 
   title = 'ChangelogGenerator';
@@ -29,7 +32,7 @@ export class AppComponent {
   @ViewChild('en_changelog') enChangelogArea!: ElementRef;
   @ViewChild('sticker_pack') stickerPackArea!: ElementRef;
   @ViewChild('sticker_number') stickerNumberArea!: ElementRef;
-  @HostBinding('class') className = '';
+  @HostBinding('class') currentTheme = '';
 
   triggerResize() {
     this._ngZone.onStable.pipe(take(1)).subscribe(() => this.autosize.resizeToFitContent(true));
@@ -37,6 +40,7 @@ export class AppComponent {
 
   copyToClipboard() {
     const data = {
+      current_date: Date.now(),
       ru_changelog: this.ruChangelogArea.nativeElement.value,
       en_changelog: this.enChangelogArea.nativeElement.value,
       sticker_pack: this.stickerPackArea.nativeElement.value,
@@ -44,7 +48,7 @@ export class AppComponent {
     };
     const jsonString = JSON.stringify(data, null, 2);
     this.clipboardService.copy(jsonString);
-    this.openSnackBar('JSON скопирован в буфер обмена', 'OK')
+    this.openSnackBar('JSON скопирован в буфер обмена ', 'OK')
   }
 
   openSnackBar(message: string, action: string) {
@@ -53,17 +57,25 @@ export class AppComponent {
     });
   }
 
-  toggleTheme() {
-    this.checked = !this.checked;
-    this.className = this.checked ? 'dayMode' : '';
-    if (this.checked) {
-      this.overlay.getContainerElement().classList.add('dayMode');
-    } else {
-      this.overlay.getContainerElement().classList.remove('dayMode');
-    }
-  }
-
   openGithub() {
     window.open('https://github.com/diskree/ChangelogGenerator', '_blank');
   }
+
+  toggleTheme() {
+    this.checked = !this.checked;
+    this.currentTheme = this.checked ? 'dayMode' : '';
+    if (this.checked) {
+      this.overlay.getContainerElement().classList.add('dayMode');
+      this.updateThemeColor('#1e88e5');
+    } else {
+      this.overlay.getContainerElement().classList.remove('dayMode');
+      this.updateThemeColor('#f8bbd0');
+    }
+  }
+
+  updateThemeColor(color: string): void {
+    const themeColorTag = this.document.getElementById('theme-color-tag');
+    this.renderer.setAttribute(themeColorTag, 'content', color);
+  }
+
 }
