@@ -3,7 +3,7 @@ import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClipboardService } from 'ngx-clipboard';
 import { take } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { DOCUMENT } from '@angular/common';
 
@@ -24,8 +24,8 @@ export class AppComponent {
   ) { }
 
   title = 'ChangelogGenerator';
-  toggleControl = new FormControl(false);
-  checked = false;
+  isDayTheme = false;
+  stickerNumberControl = new FormControl(null, [Validators.min(1), Validators.max(50)]);
 
   @ViewChild('autosize') autosize!: CdkTextareaAutosize;
   @ViewChild('ru_changelog') ruChangelogArea!: ElementRef;
@@ -39,12 +39,15 @@ export class AppComponent {
   }
 
   copyToClipboard() {
+    const stickerPack = this.stickerPackArea.nativeElement.value.trim();
+    const lastIndex = stickerPack.lastIndexOf('/');
+    const stickerPackName = lastIndex !== -1 ? stickerPack.substring(lastIndex + 1) : stickerPack;
     const data = {
       current_date: Date.now(),
-      ru_changelog: this.ruChangelogArea.nativeElement.value,
-      en_changelog: this.enChangelogArea.nativeElement.value,
-      sticker_pack: this.stickerPackArea.nativeElement.value,
-      sticker_number: this.stickerNumberArea.nativeElement.value,
+      ru_changelog: this.ruChangelogArea.nativeElement.value.trim(),
+      en_changelog: this.enChangelogArea.nativeElement.value.trim(),
+      sticker_pack_name: stickerPackName,
+      sticker_number: this.stickerNumberControl.value || 0,
     };
     const jsonString = JSON.stringify(data, null, 2);
     this.clipboardService.copy(jsonString);
@@ -62,9 +65,9 @@ export class AppComponent {
   }
 
   toggleTheme() {
-    this.checked = !this.checked;
-    this.currentTheme = this.checked ? 'dayMode' : '';
-    if (this.checked) {
+    this.isDayTheme = !this.isDayTheme;
+    this.currentTheme = this.isDayTheme ? 'dayMode' : '';
+    if (this.isDayTheme) {
       this.overlay.getContainerElement().classList.add('dayMode');
       this.updateThemeColor('#f8bbd0');
     } else {

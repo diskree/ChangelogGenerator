@@ -9,8 +9,8 @@
     <h2 class="toolbar-item">Changelog Generator</h2>
   </div>
   <button mat-icon-button toggle class="toolbar-item" (click)="toggleTheme()" aria-label="Theme toggle button">
-    <mat-icon *ngIf="!checked">sunny</mat-icon>
-    <mat-icon *ngIf="checked">bedtime</mat-icon>
+    <mat-icon *ngIf="!isDayTheme">sunny</mat-icon>
+    <mat-icon *ngIf="isDayTheme">bedtime</mat-icon>
   </button>
 </mat-toolbar>
 <div class="mat-app-background">
@@ -31,16 +31,17 @@
     </div>
     <div class="center">
       <mat-form-field class="sticker_pack" appearance="fill">
-        <mat-label>Ссылка на стикерпак</mat-label>
-        <input matInput #sticker_pack type="url">
+        <mat-label>Стикер-пак</mat-label>
+        <input matInput #sticker_pack>
       </mat-form-field>
       <mat-form-field class="sticker_number" appearance="fill">
         <mat-label>Номер стикера</mat-label>
-        <input matInput #sticker_number type="number" min="0" max="50">
+        <input matInput [formControl]="stickerNumberControl" type="number">
+        <mat-error *ngIf="stickerNumberControl.invalid">Введите число от 1 до 50.</mat-error>
       </mat-form-field>
     </div>
     <div class="center">
-      <button (click)="copyToClipboard()" mat-raised-button class="create_button" color="primary">Создать JSON</button>
+      <button (click)="copyToClipboard()" [disabled]="stickerNumberControl.invalid" mat-raised-button class="create_button" color="primary">Создать JSON</button>
     </div>
   </div>
 </div>
