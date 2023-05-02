@@ -47,7 +47,7 @@ export class AppComponent {
       ru_changelog: this.ruChangelogArea.nativeElement.value.trim(),
       en_changelog: this.enChangelogArea.nativeElement.value.trim(),
       sticker_pack_name: stickerPackName,
-      sticker_number: this.stickerNumberControl.value || 0,
+      sticker_index: this.stickerNumberControl.value ? this.stickerNumberControl.value - 1 : 0
     };
     const jsonString = JSON.stringify(data, null, 2);
     this.clipboardService.copy(jsonString);
